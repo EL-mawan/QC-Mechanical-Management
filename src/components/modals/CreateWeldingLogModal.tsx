@@ -19,7 +19,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select"
-import { getProjects, getInspectors, createMDRReport, getWPSs, getWelders, getDrawings } from "@/app/actions/master-actions"
+import { getProjects, getInspectors, createMDRReport, getWPS, getWelders, getDrawings } from "@/app/actions/master-actions"
 import { toast } from "sonner"
 
 interface CreateWeldingLogModalProps {
@@ -53,7 +53,7 @@ export function CreateWeldingLogModal({ open, onOpenChange, onSuccess }: CreateW
         const [projectsData, inspectorsData, wpssData, weldersData, drawingsData] = await Promise.all([
           getProjects(),
           getInspectors(),
-          getWPSs(),
+          getWPS(),
           getWelders(),
           getDrawings()
         ])
