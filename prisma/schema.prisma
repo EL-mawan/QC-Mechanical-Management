@@ -1,0 +1,283 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique // Admin, QC_Inspector, Production, Project_Manager, Client
+  users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  password      String
+  name          String?
+  roleId        String?
+  role          Role?        @relation(fields: [roleId], references: [id])
+  inspections   Inspection[] @relation("Inspector")
+  reports       MDRReport[]  @relation("ReportInspector")
+  itpAssigned   ITP[]        @relation("ITPAssignee")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Client {
+  id        String    @id @default(cuid())
+  name      String
+  contact   String?
+  email     String?
+  address   String?
+  projects  Project[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Project {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  location    String?
+  progress    Int         @default(0)
+  status      String      @default("Active") // Active, Completed, On_Hold
+  clientId    String?
+  client      Client?     @relation(fields: [clientId], references: [id])
+  startDate   DateTime    @default(now())
+  endDate     DateTime?
+  drawings    Drawing[]
+  inspections Inspection[]
+  reports     MDRReport[]
+  itps        ITP[]
+  weldLogs          WeldLog[]
+  hydrotestPackages HydrotestPackage[]
+  materials         Material[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Drawing {
+  id          String      @id @default(cuid())
+  projectId   String
+  project     Project     @relation(fields: [projectId], references: [id])
+  number      String      @unique
+  title       String
+  revision    String      @default("0")
+  reports     MDRReport[]
+  weldLogs    WeldLog[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Material {
+  id                    String   @id @default(cuid())
+  projectId             String?
+  project               Project? @relation(fields: [projectId], references: [id])
+  name                  String
+  specification         String?
+  heatNumber            String?
+  quantity              Float    @default(0)
+  unit                  String   @default("pcs")
+  status                String   @default("RECEIVED") // RECEIVED, HOLD, REJECTED
+  mtcReceived           Boolean  @default(false)
+  
+  // Markmas Extended Fields
+  dwgNo                 String?  // DWG_NO - Drawing Number
+  itemNo                String?  // ITEM_NO - Item Number
+  markNo                String?  // MARK_NO - Mark Number
+  markSpec              String?  // MARK_SPEC - Mark Specification
+  matSpecMemberRefNo    String?  // MAT_SPEC_MEMBER_REF_NO - Material Spec Member Reference Number
+  qtyMark               Float?   // QTY_MARK - Quantity per Mark
+  maxLength             Float?   // MAX_LENGTH - Maximum Length (mm)
+  maxWidth              Float?   // MAX_WIDTH - Maximum Width (mm)
+  maxHeight             Float?   // MAX_HEIGHT - Maximum Height (mm)
+  tWeight               Float?   // T_WEIGHT - Total Weight (kg)
+  tArea                 Float?   // T_AREA - Total Area (m²)
+  remark                String?  // REMARK - Remarks/Notes
+  countNo               String?  // COUNT_NO - Count Number
+  diInch                String?  // DI_INCH - Diameter in Inches
+  eDwg                  String?  // E_DWG - Engineering Drawing
+  paintSys              String?  // PAINT_SYS - Paint System
+  assyMark              String?  // ASSY_MARK - Assembly Mark
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  reports               MDRReport[]
+  inspections           Inspection[]
+  ncrs                  NCR[]
+}
+
+model WPS {
+  id          String   @id @default(cuid())
+  number      String   @unique
+  process     String?  // SMAW, GTAW, etc.
+  fillerMetal String?
+  position    String?
+  weldLogs    WeldLog[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model WeldLog {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  drawingId   String?
+  drawing     Drawing? @relation(fields: [drawingId], references: [id])
+  jointNumber String
+  welderId    String?
+  welder      Welder?  @relation(fields: [welderId], references: [id])
+  wpsId       String?
+  wps         WPS?     @relation(fields: [wpsId], references: [id])
+  date        DateTime @default(now())
+  status      String   @default("PASS") // PASS, REJECT
+  remarks     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ITP {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id])
+  title         String
+  description   String?
+  assigneeId    String?
+  assignee      User?     @relation("ITPAssignee", fields: [assigneeId], references: [id])
+  status        String    @default("DRAFT") // DRAFT, ISSUED, APPROVED
+  itpItems      ITPItem[]
+  evidence      EvidenceFile[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model ITPItem {
+  id               String   @id @default(cuid())
+  itpId            String
+  itp              ITP      @relation(fields: [itpId], references: [id])
+  stage            String   // Fabrication, Welding, NDT, etc.
+  description      String
+  holdPoint        Boolean  @default(false)
+  witnessPoint     Boolean  @default(false)
+  approvalStatus   String   @default("PENDING") // PENDING, PASS, REJECT
+  inspections      Inspection[]
+  evidence         EvidenceFile[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model MDRReport {
+  id          String   @id @default(cuid())
+  type        String   // INCOMING, CUTTING, FITUP, WELDING, NDT, DIMENSIONAL, PAINTING, FINAL
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  drawingId   String?
+  drawing     Drawing? @relation(fields: [drawingId], references: [id])
+  materialId  String?
+  material    Material? @relation(fields: [materialId], references: [id])
+  inspectorId String
+  inspector   User     @relation("ReportInspector", fields: [inspectorId], references: [id])
+  status      String   @default("PENDING") // PASS, REJECT, PENDING
+  remarks     String?
+  data        String?  // JSON string for specific module data
+  evidence    EvidenceFile[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Inspection {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  itpItemId   String?
+  itpItem     ITPItem? @relation(fields: [itpItemId], references: [id])
+  materialId  String?
+  material    Material? @relation(fields: [materialId], references: [id])
+  inspectorId String
+  inspector   User     @relation("Inspector", fields: [inspectorId], references: [id])
+  status      String   @default("Pending") // Passed, Rejected, Pending
+  date        DateTime @default(now())
+  ncr         NCR?
+  evidence    EvidenceFile[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NCR {
+  id               String     @id @default(cuid())
+  ncrNumber        String     @unique // Format: NCR-YYYY-XXX
+  inspectionId     String     @unique
+  inspection       Inspection @relation(fields: [inspectionId], references: [id])
+  materialId       String?
+  material         Material?  @relation(fields: [materialId], references: [id])
+  title            String
+  description      String?
+  rootCause        String?
+  correctiveAction String?
+  status           String     @default("Open") // Open, On_Progress, Closed
+  category         String     @default("Other") // Welded, Dimensional, Material, Surface
+  severity         String     @default("Medium") // Low, Medium, High
+  evidence         EvidenceFile[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model EvidenceFile {
+  id            String      @id @default(cuid())
+  url           String
+  fileName      String?
+  fileType      String?     // image, pdf, etc.
+  inspectionId  String?
+  inspection    Inspection? @relation(fields: [inspectionId], references: [id])
+  ncrId         String?
+  ncr           NCR?        @relation(fields: [ncrId], references: [id])
+  itpItemId     String?
+  itpItem       ITPItem?    @relation(fields: [itpItemId], references: [id])
+  itpId         String?
+  itp           ITP?        @relation(fields: [itpId], references: [id])
+  reportId      String?
+  report        MDRReport?  @relation(fields: [reportId], references: [id])
+  uploadedAt    DateTime    @default(now())
+}
+
+model Welder {
+  id             String    @id @default(cuid())
+  name           String
+  idNumber       String?   @unique
+  totalWelds     Int       @default(0)
+  rejectedWelds  Int       @default(0)
+  repairRate     Float     @default(0)
+  performance    Int       @default(0) // 0-100 score
+  weldLogs       WeldLog[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model DefectCategory {
+  id    String @id @default(cuid())
+  name  String @unique
+  count Int    @default(0)
+}
+
+model HydrotestPackage {
+  id             String   @id @default(cuid())
+  testPackNumber String   @unique
+  projectId      String
+  project        Project  @relation(fields: [projectId], references: [id])
+  status         String   @default("READY") // READY, TESTED, FAILED, APPROVED
+  result         String?  // PASS, FAIL
+  testDate       DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

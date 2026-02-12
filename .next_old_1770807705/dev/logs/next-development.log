@@ -1,0 +1,4 @@
+[00:00:01.071] Server  WARN    ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:01.153] Server  LOG     ✓ Ready in 887ms
+[00:00:14.135] Server  LOG       Reload env: .env
+[00:01:41.465] Server  LOG       Reload env: .env

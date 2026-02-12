@@ -1,0 +1,24 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mainGradient" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background Shape (Hexagon/Nut for Mechanical feel) -->
+  <path d="M256 32L463.8 152V360L256 480L48.2 360V152L256 32Z" fill="#0f172a" stroke="url(#mainGradient)" stroke-width="12" filter="url(#shadow)"/>
+  
+  <!-- AR Monogram -->
+  <g transform="translate(116, 136) scale(0.55)">
+    <!-- A -->
+    <path d="M100 400L250 50L400 400" stroke="white" stroke-width="45" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M165 260H335" stroke="white" stroke-width="45" stroke-linecap="round"/>
+    
+    <!-- R (Integrated) -->
+    <path d="M250 50C350 50 420 100 420 190C420 260 380 300 320 310L420 400" stroke="#2dd4bf" stroke-width="45" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
