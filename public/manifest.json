@@ -1,0 +1,18 @@
+{
+  "name": "QC Mechanical Management Plan",
+  "short_name": "QC Plan",
+  "description": "Comprehensive QC Management System for Mechanical Engineering Projects",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/ar-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

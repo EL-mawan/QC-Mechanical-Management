@@ -15,15 +15,17 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "QC Mechanical Management Plan",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["QC Mechanical Management Plan", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "QC Mechanical Management Plan" }],
+  description: "Comprehensive QC Management System for Mechanical Engineering Projects. Track inspections, NCRs, and project documentation efficiently.",
+  keywords: ["QC Mechanical Management", "Engineering", "Project Management", "Inspections", "NCR", "Construction"],
+  authors: [{ name: "QC Mechanical Management Team" }],
   icons: {
     icon: "/ar-logo.svg",
+    apple: "/ar-logo.svg",
   },
+  manifest: "/manifest.json",
   openGraph: {
     title: "QC Mechanical Management Plan",
-    description: "AI-powered development with modern React stack",
+    description: "Steamline your QC processes with our advanced management platform.",
     url: "https://qc-mechanical-management-plan.vercel.app",
     siteName: "QC Mechanical Management Plan",
     type: "website",
@@ -31,11 +33,12 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "QC Mechanical Management Plan",
-    description: "AI-powered development with modern React stack",
+    description: "Steamline your QC processes with our advanced management platform.",
   },
 };
 
 import { Providers } from "@/components/providers";
+import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 
 export default function RootLayout({
   children,
@@ -49,6 +52,7 @@ export default function RootLayout({
       >
         <Providers>
           {children}
+          <ServiceWorkerRegister />
         </Providers>
       </body>
     </html>
