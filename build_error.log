@@ -1,0 +1,99 @@
+
+> qc-mechanical-management-plan@0.2.0 build
+> next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/
+
+   ▲ Next.js 15.1.11
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./node_modules/@libsql/isomorphic-fetch/README.md
+Module parse failed: Unexpected character ' ' (1:1)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+> # `@libsql/isomorphic-fetch`
+| 
+| This package provides `fetch()` on Node (using `node-fetch`) and in Deno and Cloudflare Workers (using the native `fetch()`). Supports both CommonJS and ES modules.
+
+Import trace for requested module:
+./node_modules/@libsql/isomorphic-fetch/README.md
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ sync ^\.\/.*$
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/index.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/sqlite3.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/node.js
+./node_modules/@prisma/adapter-libsql/dist/index-node.mjs
+./src/lib/db.ts
+./src/app/actions/qc-actions.ts
+
+./node_modules/@libsql/isomorphic-fetch/README.md
+Module parse failed: Unexpected character ' ' (1:1)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+> # `@libsql/isomorphic-fetch`
+| 
+| This package provides `fetch()` on Node (using `node-fetch`) and in Deno and Cloudflare Workers (using the native `fetch()`). Supports both CommonJS and ES modules.
+
+Import trace for requested module:
+./node_modules/@libsql/isomorphic-fetch/README.md
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ sync ^\.\/.*$
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/index.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/sqlite3.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/node.js
+./node_modules/@prisma/adapter-libsql/dist/index-node.mjs
+./src/lib/db.ts
+./src/lib/auth.ts
+./src/app/api/auth/[...nextauth]/route.ts
+
+./node_modules/@libsql/isomorphic-ws/README.md
+Module parse failed: Unexpected character ' ' (1:1)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+> # `@libsql/isomorphic-ws`
+| 
+| This package provides `WebSocket` on Node (using `ws`) and in Deno and Cloudflare Workers (using the native `WebSocket`). Supports both CommonJS and ES modules.
+
+Import trace for requested module:
+./node_modules/@libsql/isomorphic-ws/README.md
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ sync ^\.\/.*$
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/index.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/sqlite3.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/node.js
+./node_modules/@prisma/adapter-libsql/dist/index-node.mjs
+./src/lib/db.ts
+./src/app/actions/qc-actions.ts
+
+./node_modules/@libsql/isomorphic-ws/README.md
+Module parse failed: Unexpected character ' ' (1:1)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+> # `@libsql/isomorphic-ws`
+| 
+| This package provides `WebSocket` on Node (using `ws`) and in Deno and Cloudflare Workers (using the native `WebSocket`). Supports both CommonJS and ES modules.
+
+Import trace for requested module:
+./node_modules/@libsql/isomorphic-ws/README.md
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ sync ^\.\/.*$
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/index.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/sqlite3.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/node.js
+./node_modules/@prisma/adapter-libsql/dist/index-node.mjs
+./src/lib/db.ts
+./src/lib/auth.ts
+./src/app/api/auth/[...nextauth]/route.ts
+
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/README.md
+Module parse failed: Unexpected token (1:0)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+> <p align="center">
+|   <a href="https://docs.turso.tech/sdk/ts/quickstart">
+|     <img alt="Turso + TypeScript" src="https://github.com/tursodatabase/libsql-client-ts/assets/950181/5d3a2693-75f9-4c56-9107-8ccaa96785fd" width="1000">
+
+Import trace for requested module:
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/README.md
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/@libsql/ ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/ ./node_modules/@libsql/ sync ^\.\/.*$
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/node_modules/libsql/index.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/sqlite3.js
+./node_modules/@prisma/adapter-libsql/node_modules/@libsql/client/lib-esm/node.js
+./node_modules/@prisma/adapter-libsql/dist/index-node.mjs
+./src/lib/db.ts
+./src/app/actions/qc-actions.ts
+
+
+> Build failed because of webpack errors

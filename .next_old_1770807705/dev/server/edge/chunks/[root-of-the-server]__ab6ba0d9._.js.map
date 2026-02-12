@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 16, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/Gambar/PROJECT ARWAN/QC Mechanical Management Plan2/src/middleware.ts"],"sourcesContent":["import { withAuth } from \"next-auth/middleware\";\nimport { NextResponse } from \"next/server\";\n\nexport default withAuth(\n  function middleware(req) {\n    const token = req.nextauth.token;\n    const path = req.nextUrl.pathname;\n\n    // Example of role-based protection\n    if (path.startsWith(\"/admin\") && token?.role !== \"Admin\") {\n      return NextResponse.redirect(new URL(\"/\", req.url));\n    }\n  },\n  {\n    callbacks: {\n      authorized: ({ token }) => !!token,\n    },\n  }\n);\n\nexport const config = {\n  matcher: [\n    \"/dashboard/:path*\",\n    \"/admin/:path*\",\n    \"/projects/:path*\",\n    \"/inspections/:path*\",\n  ],\n};\n"],"names":[],"mappings":";;;;;;AAAA;AACA;AAAA;;;uCAEe,IAAA,+NAAQ,EACrB,SAAS,WAAW,GAAG;IACrB,MAAM,QAAQ,IAAI,QAAQ,CAAC,KAAK;IAChC,MAAM,OAAO,IAAI,OAAO,CAAC,QAAQ;IAEjC,mCAAmC;IACnC,IAAI,KAAK,UAAU,CAAC,aAAa,OAAO,SAAS,SAAS;QACxD,OAAO,iQAAY,CAAC,QAAQ,CAAC,IAAI,IAAI,KAAK,IAAI,GAAG;IACnD;AACF,GACA;IACE,WAAW;QACT,YAAY,CAAC,EAAE,KAAK,EAAE,GAAK,CAAC,CAAC;IAC/B;AACF;AAGK,MAAM,SAAS;IACpB,SAAS;QACP;QACA;QACA;QACA;KACD;AACH"}}]
-}
