@@ -10,11 +10,13 @@ import { useEffect, useState } from "react"
 import { getDrawings, deleteDrawing } from "@/app/actions/master-actions"
 import { toast } from "sonner"
 import { EditDrawingModal } from "@/components/modals/EditDrawingModal"
+import { CreateDrawingModal } from "@/components/modals/CreateDrawingModal"
 
 export default function DrawingsPage() {
   const [drawings, setDrawings] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showCreateModal, setShowCreateModal] = useState(false)
   const [selectedDrawing, setSelectedDrawing] = useState<any>(null)
 
   const loadDrawings = async () => {
@@ -57,7 +59,10 @@ export default function DrawingsPage() {
                 <p className="text-muted-foreground mt-1 text-xs sm:text-sm italic font-medium">Standard & Project Specific Engineering Data</p>
               </div>
             </div>
-            <Button className="bg-[#1a4d4a] hover:bg-[#1a4d4a]/90 rounded-xl px-6 sm:px-8 h-10 sm:h-12 flex items-center justify-center gap-2 shadow-lg shadow-teal-900/20 font-bold transition-all hover:scale-105 active:scale-95 w-full sm:w-auto text-sm sm:text-base cursor-pointer">
+            <Button 
+              onClick={() => setShowCreateModal(true)}
+              className="bg-[#1a4d4a] hover:bg-[#1a4d4a]/90 rounded-xl px-6 sm:px-8 h-10 sm:h-12 flex items-center justify-center gap-2 shadow-lg shadow-teal-900/20 font-bold transition-all hover:scale-105 active:scale-95 w-full sm:w-auto text-sm sm:text-base cursor-pointer"
+            >
               <Plus className="h-4 w-4 sm:h-5 sm:w-5" /> Upload Drawing
             </Button>
           </div>
@@ -190,6 +195,12 @@ export default function DrawingsPage() {
               onSuccess={loadDrawings}
             />
           )}
+
+          <CreateDrawingModal 
+            open={showCreateModal}
+            onOpenChange={setShowCreateModal}
+            onSuccess={loadDrawings}
+          />
     </main>
   )
 }

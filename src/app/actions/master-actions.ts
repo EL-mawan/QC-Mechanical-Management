@@ -544,6 +544,44 @@ export async function getInspectors() {
   }
 }
 
+export async function createInspector(data: any) {
+  try {
+    // Find inspector role
+    const role = await db.role.findFirst({
+      where: { name: { contains: "Inspector" } }
+    })
+
+    if (!role) {
+      return { success: false, message: "✗ Inspector role not found in system" }
+    }
+
+    const user = await db.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        password: "password", // Default password
+        roleId: role.id
+      }
+    })
+
+    revalidatePath("/dashboard/master/inspectors")
+    return {
+      success: true,
+      message: `✓ Inspector "${user.name}" invited successfully`,
+      data: user
+    }
+  } catch (error: any) {
+    console.error("Error creating inspector:", error)
+    if (error.code === 'P2002') {
+      return { success: false, message: "✗ Email already registered" }
+    }
+    return {
+      success: false,
+      message: `✗ Failed to invite inspector: ${error.message || 'Database error'}`
+    }
+  }
+}
+
 export async function updateInspector(id: string, data: any) {
   try {
     // Note: This updates the user record. roleName is used to find/create role if needed

@@ -209,8 +209,8 @@ export function CreateWeldingLogModal({ open, onOpenChange, onSuccess }: CreateW
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-none shadow-xl bg-white p-1">
                        {wpss.map(w => (
-                          <SelectItem key={w.id} value={w.wpsNumber} className="font-bold cursor-pointer rounded-lg">
-                             {w.wpsNumber}
+                          <SelectItem key={w.id} value={w.number} className="font-bold cursor-pointer rounded-lg">
+                             {w.number}
                           </SelectItem>
                        ))}
                     </SelectContent>
@@ -229,8 +229,8 @@ export function CreateWeldingLogModal({ open, onOpenChange, onSuccess }: CreateW
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-none shadow-xl bg-white p-1">
                        {drawings.map(d => (
-                          <SelectItem key={d.id} value={d.drawingNumber} className="font-bold cursor-pointer rounded-lg">
-                             {d.drawingNumber}
+                          <SelectItem key={d.id} value={d.number} className="font-bold cursor-pointer rounded-lg">
+                             {d.number}
                           </SelectItem>
                        ))}
                     </SelectContent>

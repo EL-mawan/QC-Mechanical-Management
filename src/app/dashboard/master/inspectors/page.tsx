@@ -11,6 +11,7 @@ import { useEffect, useState } from "react"
 import { getInspectors, deleteInspector } from "@/app/actions/master-actions"
 import { toast } from "sonner"
 import { EditInspectorModal } from "@/components/modals/EditInspectorModal"
+import { InviteInspectorModal } from "@/components/modals/InviteInspectorModal"
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -22,6 +23,7 @@ export default function InspectorsPage() {
   const [inspectors, setInspectors] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showInviteModal, setShowInviteModal] = useState(false)
   const [selectedInspector, setSelectedInspector] = useState<any>(null)
 
   const loadData = async () => {
@@ -64,7 +66,10 @@ export default function InspectorsPage() {
                 <p className="text-muted-foreground mt-1 text-xs sm:text-sm italic font-medium">Manage quality control personnel and certifications</p>
               </div>
             </div>
-            <Button className="bg-[#1a4d4a] hover:bg-[#1a4d4a]/90 rounded-xl px-6 sm:px-8 h-10 sm:h-12 flex items-center justify-center gap-2 shadow-lg shadow-teal-900/20 font-bold transition-all hover:scale-105 active:scale-95 w-full sm:w-auto text-sm sm:text-base cursor-pointer">
+            <Button 
+              onClick={() => setShowInviteModal(true)}
+              className="bg-[#1a4d4a] hover:bg-[#1a4d4a]/90 rounded-xl px-6 sm:px-8 h-10 sm:h-12 flex items-center justify-center gap-2 shadow-lg shadow-teal-900/20 font-bold transition-all hover:scale-105 active:scale-95 w-full sm:w-auto text-sm sm:text-base cursor-pointer"
+            >
               <Plus className="h-4 w-4 sm:h-5 sm:w-5" /> Invite Inspector
             </Button>
           </div>
@@ -227,6 +232,12 @@ export default function InspectorsPage() {
                onSuccess={loadData}
              />
           )}
+
+          <InviteInspectorModal 
+            open={showInviteModal}
+            onOpenChange={setShowInviteModal}
+            onSuccess={loadData}
+          />
     </main>
   )
 }

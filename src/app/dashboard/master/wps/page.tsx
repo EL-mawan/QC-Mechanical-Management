@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import { getWPS, deleteWPS } from "@/app/actions/master-actions"
 import { toast } from "sonner"
 import { EditWPSModal } from "@/components/modals/EditWPSModal"
+import { CreateWPSModal } from "@/components/modals/CreateWPSModal"
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -21,6 +22,7 @@ export default function WPSPage() {
   const [wpsEntries, setWpsEntries] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showCreateModal, setShowCreateModal] = useState(false)
   const [selectedWps, setSelectedWps] = useState<any>(null)
 
   const loadData = async () => {
@@ -70,7 +72,10 @@ export default function WPSPage() {
                 <p className="text-muted-foreground mt-1 text-xs sm:text-sm italic font-medium">Welding Procedure Specifications & Qualifications</p>
               </div>
             </div>
-            <Button className="bg-[#1a4d4a] hover:bg-[#1a4d4a]/90 rounded-xl px-6 sm:px-8 h-10 sm:h-12 flex items-center justify-center gap-2 shadow-lg shadow-teal-900/20 font-bold transition-all hover:scale-105 active:scale-95 w-full sm:w-auto text-sm sm:text-base cursor-pointer">
+            <Button 
+              onClick={() => setShowCreateModal(true)}
+              className="bg-[#1a4d4a] hover:bg-[#1a4d4a]/90 rounded-xl px-6 sm:px-8 h-10 sm:h-12 flex items-center justify-center gap-2 shadow-lg shadow-teal-900/20 font-bold transition-all hover:scale-105 active:scale-95 w-full sm:w-auto text-sm sm:text-base cursor-pointer"
+            >
               <Plus className="h-4 w-4 sm:h-5 sm:w-5" /> Register New WPS
             </Button>
           </div>
@@ -226,6 +231,12 @@ export default function WPSPage() {
                onSuccess={loadData}
              />
           )}
+
+          <CreateWPSModal 
+            open={showCreateModal}
+            onOpenChange={setShowCreateModal}
+            onSuccess={loadData}
+          />
     </main>
   )
 }
