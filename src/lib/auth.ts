@@ -22,34 +22,42 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await db.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-          include: {
-            role: true,
+        try {
+          const user = await db.user.findUnique({
+            where: {
+              email: credentials.email,
+            },
+            include: {
+              role: true,
+            }
+          });
+
+          if (!user) {
+            console.log("Login failed: User not found", credentials.email);
+            return null;
           }
-        });
 
-        if (!user) {
+          const isPasswordValid = await compare(credentials.password, user.password);
+
+          if (!isPasswordValid) {
+            console.log("Login failed: Invalid password", credentials.email);
+            return null;
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role?.name || "Client",
+          };
+        } catch (error) {
+          console.error("Login Authorization Error:", error);
           return null;
         }
-
-        const isPasswordValid = await compare(credentials.password, user.password);
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role?.name || "Client",
-        };
       },
     }),
   ],
+  debug: process.env.NODE_ENV === 'development',
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
