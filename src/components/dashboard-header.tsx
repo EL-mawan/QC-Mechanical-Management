@@ -40,7 +40,7 @@ export function DashboardHeader() {
             <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">{session?.user?.role || "User"}</span>
           </div>
           <Avatar className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl border-2 border-white shadow-sm">
-            <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${session?.user?.name}`} />
+            <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${session?.user?.name}&top=shortHair&facialHair=beard`} />
             <AvatarFallback className="bg-teal-50 text-teal-600 font-black text-[10px]">QC</AvatarFallback>
           </Avatar>
           <Button 
