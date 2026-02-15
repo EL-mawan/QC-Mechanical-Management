@@ -270,22 +270,47 @@ export async function uploadMaterialExcel(formData: FormData) {
       }
     }
 
-    // Bulk insert materials
+    // Batch insert materials to avoid timeout
     let successCount = 0
-    for (const material of materials) {
-      try {
-        await db.material.create({ data: material as any })
-        successCount++
-      } catch (error) {
-        // Skip duplicates or invalid entries
-        console.log(`Skipped material: ${material.name}`)
-      }
+    let failureCount = 0
+    const BATCH_SIZE = 50 // Process 50 records at a time
+    
+    // Split into batches
+    for (let i = 0; i < materials.length; i += BATCH_SIZE) {
+      const batch = materials.slice(i, i + BATCH_SIZE);
+      
+      // Process batch in parallel
+      const results = await Promise.all(
+        batch.map(async (material) => {
+          try {
+            await db.material.create({ data: material as any })
+            return true
+          } catch (error: any) {
+            // Check for specific database errors
+            if (error.code === 'SQLITE_READONLY' || error.message?.includes('readonly')) {
+              throw new Error("Database is in READ-ONLY mode. Please update your Turso token with write permissions.")
+            }
+            // Skip duplicates (P2002) or other validation errors
+            // console.log(`Skipped material: ${material.name} - ${error.message}`)
+            return false
+          }
+        })
+      )
+      
+      successCount += results.filter(Boolean).length
+      failureCount += results.length - results.filter(Boolean).length
     }
 
     if (successCount === 0) {
+      if (failureCount > 0) {
+        return {
+          success: false,
+          message: "✗ No materials imported. They might already exist or data is invalid."
+        }
+      }
       return {
         success: false,
-        message: "✗ No materials were imported (all may be duplicates)"
+        message: "✗ No valid materials to import"
       }
     }
 
@@ -293,7 +318,7 @@ export async function uploadMaterialExcel(formData: FormData) {
     
     return { 
       success: true, 
-      message: `✓ Successfully imported ${successCount} materials`,
+      message: `✓ Successfully imported ${successCount} materials` + (failureCount > 0 ? ` (${failureCount} skipped)` : ""),
       count: successCount
     }
   } catch (error: any) {
