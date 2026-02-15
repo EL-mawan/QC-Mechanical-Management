@@ -1,11 +1,6 @@
 {
-  "buildCommand": "prisma generate && next build",
-  "installCommand": "npm install",
   "framework": "nextjs",
-  "env": {
-    "DATABASE_URL": "@database_url",
-    "TURSO_AUTH_TOKEN": "@turso_auth_token",
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "NEXTAUTH_URL": "@nextauth_url"
-  }
+  "installCommand": "npm install",
+  "buildCommand": "prisma generate && next build",
+  "regions": ["sin1"]
 }
