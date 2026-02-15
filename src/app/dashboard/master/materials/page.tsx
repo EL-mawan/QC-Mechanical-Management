@@ -28,6 +28,16 @@ import {
 import { EditMaterialModal } from "@/components/modals/EditMaterialModal"
 import { UploadMaterialExcelModal } from "@/components/modals/UploadMaterialExcelModal"
 import { toast } from "sonner"
+import { 
+  AlertDialog, 
+  AlertDialogAction, 
+  AlertDialogCancel, 
+  AlertDialogContent, 
+  AlertDialogDescription, 
+  AlertDialogFooter, 
+  AlertDialogHeader, 
+  AlertDialogTitle 
+} from "@/components/ui/alert-dialog"
 
 export default function MaterialsPage() {
   const [materials, setMaterials] = useState<any[]>([])
@@ -37,6 +47,7 @@ export default function MaterialsPage() {
   const [showEditModal, setShowEditModal] = useState(false)
   const [showUploadModal, setShowUploadModal] = useState(false)
   const [selectedMaterial, setSelectedMaterial] = useState<any>(null)
+  const [materialToDelete, setMaterialToDelete] = useState<{ id: string, name: string } | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [filterRows, setFilterRows] = useState([{ dwgNo: "", markNo: "", markSpec: "" }])
   const [showFilters, setShowFilters] = useState(false)
@@ -133,16 +144,36 @@ export default function MaterialsPage() {
     toast.success("PDF Report generated successfully")
   }
 
-  const handleDelete = async (id: string, name: string) => {
-    if (confirm(`Are you sure you want to delete material "${name}"?`)) {
-      const result = await deleteMaterial(id)
+  const confirmDelete = async () => {
+    if (!materialToDelete) return
+
+    setIsSubmitting(true)
+    try {
+      const result = await deleteMaterial(materialToDelete.id)
+      
       if (result.success) {
-        toast.success(result.message || "Material deleted", { description: "Removed from inventory", duration: 4000 })
+        toast.success("Berhasil Terhapus Permanen", { 
+          description: `Data material "${materialToDelete.name}" telah dihapus selamanya dari database Turso.`,
+          duration: 4000,
+          className: "bg-red-50 border-red-200 text-red-800 font-bold shadow-lg"
+        })
         loadMaterials()
       } else {
-        toast.error(result.message || "Failed to delete", { description: "Could not remove material", duration: 5000 })
+        toast.error("Gagal Menghapus Data", { 
+          description: result.message || "Gagal menghubungi server database", 
+          duration: 5000 
+        })
       }
+    } catch (error) {
+      toast.error("Error Sistem", { description: "Terjadi kesalahan koneksi saat menghapus data." })
+    } finally {
+      setIsSubmitting(false)
+      setMaterialToDelete(null)
     }
+  }
+
+  const handleDelete = (id: string, name: string) => {
+    setMaterialToDelete({ id, name })
   }
 
   // Filtered materials based on search and filters
@@ -503,6 +534,56 @@ export default function MaterialsPage() {
             onOpenChange={setShowUploadModal}
             onSuccess={loadMaterials}
           />
+
+          <AlertDialog open={!!materialToDelete} onOpenChange={(open) => !open && setMaterialToDelete(null)}>
+            <AlertDialogContent className="rounded-3xl border-none shadow-2xl bg-white/95 backdrop-blur-xl p-0 overflow-hidden">
+              <div className="bg-rose-50 p-6 border-b border-rose-100 flex items-center gap-4">
+                <div className="bg-rose-100 p-3 rounded-full">
+                  <Trash2 className="h-6 w-6 text-rose-600" />
+                </div>
+                <div>
+                  <AlertDialogTitle className="text-xl font-black text-rose-900">Hapus Permanen?</AlertDialogTitle>
+                  <AlertDialogDescription className="text-rose-700 font-medium mt-1">
+                    Konfirmasi penghapusan data material dari database.
+                  </AlertDialogDescription>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <p className="text-slate-600 font-medium mb-4">
+                  Anda akan menghapus material <span className="font-black text-slate-800">"{materialToDelete?.name}"</span>.
+                  <br />
+                  Data yang dihapus <span className="text-rose-600 font-bold">TIDAK DAPAT</span> dikembalikan.
+                </p>
+                
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="rounded-xl font-bold border-slate-200 hover:bg-slate-50 text-slate-600 h-11 px-6">
+                    Batal
+                  </AlertDialogCancel>
+                  <AlertDialogAction 
+                    onClick={(e) => {
+                      e.preventDefault()
+                      confirmDelete()
+                    }}
+                    className="bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold shadow-lg shadow-rose-600/20 h-11 px-6 transition-transform hover:scale-105"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        Menghapus...
+                      </>
+                    ) : (
+                      <>
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Ya, Hapus Sekarang
+                      </>
+                    )}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </div>
+            </AlertDialogContent>
+          </AlertDialog>
     </main>
   )
 }

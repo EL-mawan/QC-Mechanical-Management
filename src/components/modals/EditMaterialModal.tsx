@@ -33,16 +33,18 @@ export function EditMaterialModal({ material, open, onOpenChange, onSuccess }: E
     const result = await updateMaterial(material.id, formData)
     
     if (result.success) {
-      toast.success(result.message || "Material updated successfully", {
-        description: "Stock inventory refreshed",
+      toast.success("Berhasil Update Data", { 
+        description: `Material "${formData.name}" berhasil diperbarui di database Turso.`, 
         duration: 4000,
+        className: "bg-teal-50 border-teal-200 text-teal-800 font-bold shadow-lg"
       })
       onOpenChange(false)
       onSuccess()
     } else {
-      toast.error(result.message || "Failed to update material", {
-        description: "Consistency check failed",
+      toast.error("Gagal Update Data", { 
+        description: result.message || "Gagal menyimpan perubahan ke database", 
         duration: 5000,
+        className: "bg-red-50 border-red-200 text-red-800 font-bold"
       })
     }
     
